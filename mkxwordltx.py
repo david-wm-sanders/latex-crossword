@@ -46,14 +46,21 @@ def make_ltxtabularx(xword_grid):
                     "\\hline\n"
     rows = []
     # Split the xword grid into individual rows
-    for xword_row in xword_grid.splitlines():
-        # Split the xword row into cells, removing the empty ones at each end
-        cells = xword_row.split(" ")[1:-1]
+    # Hack: Remove the last row that is unfilled due to a bug in xwordgen_bh
+    xword_rows = xword_grid.splitlines()[0:-1]
+    # print(len(xword_rows))
+    for xword_row in xword_rows:
+        # Split the xword row into cells, removing the empty string at the end
+        # Hack, remove the last column - it is unfilled by xwordgen_bh
+        cells = xword_row.split(" ")
+        cells = cells[0:-2]
+        # print(cells)
+        # print(len(cells))
         # Convert xword cells into LaTeX cells
         cells = map(xwordcell_to_ltxcell, cells)
         # Join the LaTex cells together to make a LaTeX row data
         row_data = " & ".join(cells)
-        # Create the full row and append to all_rows
+        # Create the full row and append to rows
         row = f"{row_data} \\tabularnewline[\\rowh] \\hline"
         rows.append(row)
 
@@ -83,19 +90,16 @@ if __name__ == '__main__':
         for row in reader:
             word_list.append([row["word"], row["clue"]])
 
-    time = 1
+    time = 10
     print(f"Creating crossword... (takes {time} seconds)")
-    xword = Crossword(25, 25, "-", 5000, word_list)
-    xword.compute_crossword(time)
+    xword = Crossword(26, 26, "-", 5000, word_list)
+    xword.compute_crossword(time, spins=3)
     xword_solution = xword.solution()
     xword_grid = xword.display()
     xword_legend = xword.legend()
-    # print(xword.word_bank())
-    # print(xword_solution)
-    # print(xword_grid)
-    # print(xword_legend)
     print(f"Used {len(xword.current_word_list)} out of {len(word_list)} words")
-    print(f"Score: {xword.debug}")
+    print(f"Cycles: {xword.debug}")
+    print(xword_solution)
 
     print("Making LaTeX table for crossword...")
     ltx_xword_table = make_xword_ltxtable(xword_grid)
