@@ -15,6 +15,7 @@ ltx_doc_start = \
 \\usepackage[a4paper, margin=0.75in]{geometry}
 \\usepackage{tabularx}
 \\usepackage[table]{xcolor}
+\\usepackage{parskip}
 
 \\pagestyle{empty}
 
@@ -38,7 +39,8 @@ def make_ltxtabularx(xword_grid):
             return "\\cellcolor{black!25}"
         elif cell == "w":
             return "\\cellcolor{white}"
-        else: return cell
+        else:
+            return cell
 
     tabularx_init = "\\begin{tabularx}{1\\textwidth}{*{25}{|X}|}\n" \
                     "\\hline\n"
@@ -66,6 +68,13 @@ def make_xword_ltxtable(xword_grid):
     return f"{ltxtable_init}{ltxtabularx}{ltxtable_end}"
 
 
+def make_xword_clues(xword_legend):
+    clues = ["\\fontsize{10pt}{10pt}\\selectfont\n"]
+    for clue in xword_legend.splitlines():
+        clues.append(f"{clue}\\\\\n")
+    return "".join(clues)
+
+
 if __name__ == '__main__':
     print("Loading word list from file...")
     word_list = []
@@ -90,11 +99,12 @@ if __name__ == '__main__':
 
     print("Making LaTeX table for crossword...")
     ltx_xword_table = make_xword_ltxtable(xword_grid)
-    # TODO: make clues ltx
+    ltx_xword_clues = make_xword_clues(xword_legend)
     print("Writing LaTeX document to crossword.tex...")
     with output_path.open(mode="w", encoding="utf-8") as f:
         f.write(ltx_doc_start)
         f.write(ltx_xword_table)
+        f.write(ltx_xword_clues)
         f.write(ltx_doc_end)
         for solution_ln in xword_solution.splitlines(keepends=True):
             f.write(f"%  {solution_ln}")
