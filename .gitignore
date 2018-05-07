@@ -5,3 +5,5 @@
 *.bbl
 *.blg
 *.out
+
+__pycache__/

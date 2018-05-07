@@ -1,7 +1,8 @@
 from pathlib import Path
+from xwordgen_bh import Crossword
 
-output_path = Path(__file__).parent / "output.tex"
 
+output_path = Path(__file__).parent / "crossword.tex"
 ltx_doc_start = \
 """% !TEX TS-program = pdflatex
 \\documentclass[12pt]{article}
@@ -11,10 +12,12 @@ ltx_doc_start = \
 \\usepackage{lmodern}
 \\usepackage[a4paper, margin=0.75in]{geometry}
 \\usepackage{tabularx}
+\\usepackage[table]{xcolor}
+
+\\pagestyle{empty}
 
 \\begin{document}
 """
-
 ltx_doc_end = "\\end{document}"
 
 
@@ -49,8 +52,23 @@ def make_xword_ltxtable():
     return f"{ltxtable_init}{ltxtabularx}{ltxtable_end}"
 
 
-with output_path.open(mode="w", encoding="utf-8") as f:
-    f.write(ltx_doc_start)
+if __name__ == '__main__':
+    print("Loading word list from file...")
+    word_list = []
+    # TODO: load wordlist from CSV file
+    time = 5
+    print(f"Creating crossword... (taking {time} seconds)")
+    xword = Crossword(25, 25, "-", 5000, word_list)
+    xword.compute_crossword(time)
+
+    print(xword.display())
+    print(xword.solution())
+    print(xword.legend())
+    print(len(xword.current_word_list), 'out of', len(word_list))
+    print(xword.debug)
+
     ltx_xword_table = make_xword_ltxtable()
-    f.write(ltx_xword_table)
-    f.write(ltx_doc_end)
+    with output_path.open(mode="w", encoding="utf-8") as f:
+        f.write(ltx_doc_start)
+        f.write(ltx_xword_table)
+        f.write(ltx_doc_end)
