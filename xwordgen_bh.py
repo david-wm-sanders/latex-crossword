@@ -288,7 +288,7 @@ class Crossword(object):
                 outStr += '%s ' % c
             outStr += '\n'
 
-        outStr = re.sub(r'[a-z]', ' ', outStr)
+        outStr = re.sub(r'[a-z]', 'w', outStr)
         return outStr
 
     def word_bank(self):
