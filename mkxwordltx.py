@@ -36,7 +36,7 @@ def make_ltxtable():
 def make_ltxtabularx(xword_grid):
     def xwordcell_to_ltxcell(cell):
         if cell == "-":
-            return "\\cellcolor{black!25}"
+            return "\\cellcolor{black!10}"
         elif cell == "w":
             return "\\cellcolor{white}"
         else:
@@ -76,8 +76,8 @@ def make_xword_ltxtable(xword_grid):
 
 
 def make_xword_clues(xword_legend):
-    # clues = ["\\fontsize{10pt}{10pt}\\selectfont\n"]
-    clues = ["\\pagebreak\n"]
+    clues = ["\\pagebreak\n",
+             "\\fontsize{10pt}{10pt}\\selectfont\n"]
     for clue in xword_legend.splitlines():
         clues.append(f"{clue}\\\\\n")
     return "".join(clues)
