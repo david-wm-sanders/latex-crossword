@@ -1,4 +1,5 @@
 import csv
+import random
 from pathlib import Path
 from xwordgen_bh import Crossword
 
@@ -83,6 +84,10 @@ def make_xword_clues(xword_legend):
     return "".join(clues)
 
 
+def filter_word_randomly(word):
+    return random.choice([True, True, False])
+
+
 if __name__ == '__main__':
     print("Loading word list from file...")
     word_list = []
@@ -90,8 +95,11 @@ if __name__ == '__main__':
         reader = csv.DictReader(f)
         for row in reader:
             word_list.append([row["word"], row["clue"]])
+    # Remove some words from the long word list at random
+    # This increases our chance of getting more shorter words in the crossword
+    word_list = list(filter(filter_word_randomly, word_list))
 
-    time = 10
+    time = 30
     print(f"Creating crossword... (takes {time} seconds)")
     xword = Crossword(26, 26, "-", 5000, word_list)
     xword.compute_crossword(time, spins=3)
