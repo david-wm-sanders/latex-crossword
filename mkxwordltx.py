@@ -76,7 +76,8 @@ def make_xword_ltxtable(xword_grid):
 
 
 def make_xword_clues(xword_legend):
-    clues = ["\\fontsize{10pt}{10pt}\\selectfont\n"]
+    # clues = ["\\fontsize{10pt}{10pt}\\selectfont\n"]
+    clues = ["\\pagebreak\n"]
     for clue in xword_legend.splitlines():
         clues.append(f"{clue}\\\\\n")
     return "".join(clues)
