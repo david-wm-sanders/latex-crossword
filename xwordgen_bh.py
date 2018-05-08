@@ -302,7 +302,7 @@ class Crossword(object):
     def legend(self): # must order first
         outStr = ''
         for word in self.current_word_list:
-            outStr += '%d. (%d,%d) %s: %s\n' % (word.number, word.col, word.row, word.down_across(), word.clue )
+            outStr += '%d. (%d,%d) %s %s: %s\n' % (word.number, word.col, word.row, word.down_across(), len(word.word), word.clue)
         return outStr
 
 class Word(object):
