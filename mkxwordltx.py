@@ -81,21 +81,21 @@ def make_xword_ltxtable(xword_grid):
 def make_xword_clues(xword_legend):
     def adjust_clue(clue):
         parts = clue.split(":")
-        wp, ct = parts[0], parts[1]
+        wp, ct = parts[0], parts[1].lstrip()
         wp_parts = wp.split(".")
         n, p = wp_parts[0], wp_parts[1].lstrip()
         return f"\\textbf{{{n}.}} \\textit{{{p}:}} {ct}"
 
     clues = ["\\pagebreak\n",
              "\\centering\n"]
-    mpla = ["\\begin{minipage}[t]{0.42\\linewidth}\n",
-            "\\fontsize{10pt}{10pt}\\selectfont\n",
+    mpla = ["\\begin{minipage}[t]{0.43\\linewidth}\n",
             "\\vspace{0pt}\n",
-            "\\RaggedRight\n"]
-    mprd = ["\\begin{minipage}[t]{0.42\\linewidth}\n",
-            "\\fontsize{10pt}{10pt}\\selectfont\n",
+            "\\RaggedRight\n",
+            "\\fontsize{10pt}{10pt}\\selectfont\n"]
+    mprd = ["\\begin{minipage}[t]{0.43\\linewidth}\n",
             "\\vspace{0pt}\n",
-            "\\RaggedRight\n"]
+            "\\RaggedRight\n",
+            "\\fontsize{10pt}{10pt}\\selectfont\n"]
     for clue in xword_legend.splitlines():
         position = clue.split(":")[0]
         if "across" in position:
@@ -110,7 +110,7 @@ def make_xword_clues(xword_legend):
     mprd.append("\\end{minipage}")
 
     parts = itertools.chain(clues, mpla,
-                            ["\\hspace{5mm}\\textcolor{gray}{\\vline width 0.1mm}\\hspace{4mm}~\n"],
+                            ["\\hspace{4mm}\\textcolor{gray}{\\vline width 0.1mm}\\hspace{3mm}~\n"],
                             mprd, ["\\\\\n"])
     return "".join(parts)
 
