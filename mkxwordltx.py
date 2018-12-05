@@ -1,4 +1,5 @@
 import csv
+import itertools
 import random
 from pathlib import Path
 from xwordgen_bh import Crossword
@@ -17,6 +18,7 @@ ltx_doc_start = \
 \\usepackage{tabularx}
 \\usepackage[table]{xcolor}
 \\usepackage{parskip}
+\\usepackage{ragged2e}
 
 \\pagestyle{empty}
 
@@ -77,11 +79,40 @@ def make_xword_ltxtable(xword_grid):
 
 
 def make_xword_clues(xword_legend):
+    def adjust_clue(clue):
+        parts = clue.split(":")
+        wp, ct = parts[0], parts[1]
+        wp_parts = wp.split(".")
+        n, p = wp_parts[0], wp_parts[1].lstrip()
+        return f"\\textbf{{{n}.}} \\textit{{{p}:}} {ct}"
+
     clues = ["\\pagebreak\n",
-             "\\fontsize{10pt}{10pt}\\selectfont\n"]
+             "\\centering\n"]
+    mpla = ["\\begin{minipage}[t]{0.42\\linewidth}\n",
+            "\\fontsize{10pt}{10pt}\\selectfont\n",
+            "\\vspace{0pt}\n",
+            "\\RaggedRight\n"]
+    mprd = ["\\begin{minipage}[t]{0.42\\linewidth}\n",
+            "\\fontsize{10pt}{10pt}\\selectfont\n",
+            "\\vspace{0pt}\n",
+            "\\RaggedRight\n"]
     for clue in xword_legend.splitlines():
-        clues.append(f"{clue}\\\\\n")
-    return "".join(clues)
+        position = clue.split(":")[0]
+        if "across" in position:
+            mpla.append(f"{adjust_clue(clue)}\\\\\n")
+        elif "down" in position:
+            adjust_clue(clue)
+            mprd.append(f"{adjust_clue(clue)}\\\\\n")
+        else:
+            raise Exception(f"Bad clue position '{position}' not across or down!")
+
+    mpla.append("\\end{minipage}")
+    mprd.append("\\end{minipage}")
+
+    parts = itertools.chain(clues, mpla,
+                            ["\\hspace{5mm}\\textcolor{gray}{\\vline width 0.1mm}\\hspace{4mm}~\n"],
+                            mprd, ["\\\\\n"])
+    return "".join(parts)
 
 
 def filter_word_randomly(word):
