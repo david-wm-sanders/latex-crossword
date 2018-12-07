@@ -16,7 +16,7 @@ ltx_doc_start = \
 \\usepackage[T1]{{fontenc}}
 \\usepackage[utf8]{{inputenc}}
 \\usepackage{{lmodern}}
-\\usepackage[a4paper, margin=0.75in]{{geometry}}
+\\usepackage[a4paper, hmargin=0.5in, vmargin=0.75in]{{geometry}}
 \\usepackage{{tabularx}}
 \\usepackage[table]{{xcolor}}
 \\usepackage{{parskip}}
@@ -116,12 +116,12 @@ def make_xword_clues(xword_legend):
              # "\\pagestyle{fancy}\n",
              # "\\fancyhfoffset[E,O]{0pt}\n",
              "\\centering\n"]
-    mpla = ["\\begin{minipage}[t]{0.43\\linewidth}\n",
+    mpla = ["\\begin{minipage}[t]{0.47\\linewidth}\n",
             "\\vspace{0pt}\n",
             "{\\Centering\\underline{\\textsc{Across}}\\\\~\\\\}\n",
             "\\RaggedRight\n",
             "\\fontsize{10pt}{10pt}\\selectfont\n"]
-    mprd = ["\\begin{minipage}[t]{0.43\\linewidth}\n",
+    mprd = ["\\begin{minipage}[t]{0.47\\linewidth}\n",
             "\\vspace{0pt}\n",
             "{\\Centering\\underline{\\textsc{Down}}\\\\~\\\\}\n",
             "\\RaggedRight\n",
