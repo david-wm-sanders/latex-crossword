@@ -1,29 +1,44 @@
 import csv
 import itertools
 import random
+import uuid
 from pathlib import Path
 from xwordgen_bh import Crossword
 
+_crossword_uuid = uuid.uuid4()
 
 word_list_path = Path(__file__).parent / "words.csv"
-output_path = Path(__file__).parent / "crossword.tex"
+output_path = Path(__file__).parent / f"{_crossword_uuid.hex}.tex"
 ltx_doc_start = \
 """% !TEX TS-program = pdflatex
-\\documentclass[12pt]{article}
+\\documentclass[12pt]{{article}}
 
-\\usepackage[T1]{fontenc}
-\\usepackage[utf8]{inputenc}
-\\usepackage{lmodern}
-\\usepackage[a4paper, margin=0.75in]{geometry}
-\\usepackage{tabularx}
-\\usepackage[table]{xcolor}
-\\usepackage{parskip}
-\\usepackage{ragged2e}
+\\usepackage[T1]{{fontenc}}
+\\usepackage[utf8]{{inputenc}}
+\\usepackage{{lmodern}}
+\\usepackage[a4paper, margin=0.75in]{{geometry}}
+\\usepackage{{tabularx}}
+\\usepackage[table]{{xcolor}}
+\\usepackage{{parskip}}
+\\usepackage{{ragged2e}}
+\\usepackage{{fancyhdr}}
+\\usepackage[colorlinks=true, linkcolor=gray, citecolor=gray, urlcolor=gray]{{hyperref}}
+\\usepackage{{latexsym}}
 
-\\pagestyle{empty}
+% Configure fancyhdr
+\\renewcommand{{\\headrulewidth}}{{0.1mm}}
+\\renewcommand{{\\footrulewidth}}{{0.1mm}}
 
-\\begin{document}
-"""
+\\pagestyle{{fancy}}
+\\fancyhf{{}}
+\\lhead{{\\textcolor{{gray}}{{\\scriptsize {_crossword_uuid}}}}}
+\\rhead{{\\textcolor{{gray}}{{\\scriptsize $\\Diamond$}}}}
+\\lfoot{{\\textcolor{{gray}}{{\\scriptsize~
+\\textit{{Generated with \\href{{https://github.com/david-wm-sanders/latex-crossword}}{{https://github.com/david-wm-sanders/latex-crossword}}}}}}}}
+\\rfoot{{\\textcolor{{gray}}{{\\scriptsize \\thepage}}}}
+
+\\begin{{document}}
+""".format(_crossword_uuid=_crossword_uuid)
 ltx_doc_end = "\\end{document}\n"
 
 
@@ -89,7 +104,10 @@ def make_xword_clues(xword_legend):
         return f"\\textbf{{{wordnum}.}} \\textit{{{wloc}({wlen}):}} {cluetext}"
 
     clues = ["\\pagebreak\n",
-             "\\newgeometry{margin=0.25in}",
+             # "\\newgeometry{margin=0.25in}\n",
+             # "\\resetHeadWidth",
+             # "\\pagestyle{fancy}\n",
+             # "\\fancyhfoffset[E,O]{0pt}\n",
              "\\centering\n"]
     mpla = ["\\begin{minipage}[t]{0.43\\linewidth}\n",
             "\\vspace{0pt}\n",
@@ -149,7 +167,7 @@ if __name__ == '__main__':
     print("Making LaTeX table for crossword...")
     ltx_xword_table = make_xword_ltxtable(xword_grid)
     ltx_xword_clues = make_xword_clues(xword_legend)
-    print("Writing LaTeX document to crossword.tex...")
+    print(f"Writing LaTeX document to {output_path}...")
     with output_path.open(mode="w", encoding="utf-8") as f:
         f.write(ltx_doc_start)
         f.write(ltx_xword_table)
@@ -157,4 +175,4 @@ if __name__ == '__main__':
         f.write(ltx_doc_end)
         for solution_ln in xword_solution.splitlines(keepends=True):
             f.write(f"%  {solution_ln}")
-    print("Finished making crossword.tex - run .\\make.py to compile!")
+    print(f"Finished making crossword - run .\\make.py {output_path.name} to compile!")
