@@ -50,7 +50,7 @@
 "insiderthreat","One or more individuals with the access and/or inside knowledge of a company, organization, or enterprise that would allow them to exploit the vulnerabilities of that entity's security, systems, services, products, or facilities with the intent to cause harm.","https://niccs.us-cert.gov/glossary"
 "integrity","The property whereby information, an information system, or a component of a system has not been modified or destroyed in an unauthorized manner.","https://niccs.us-cert.gov/glossary"
 "intrusion","An unauthorized act of bypassing the security mechanisms of a network or information system.","https://niccs.us-cert.gov/glossary"
-"keylogger"," Software or hardware that tracks keystrokes and keyboard events, usually surreptitiously / secretly, to monitor actions by the user of an information system.","https://niccs.us-cert.gov/glossary"
+"keylogger","Software or hardware that tracks keystrokes and keyboard events, usually surreptitiously or secretly, to monitor actions by the user of an information system.","https://niccs.us-cert.gov/glossary"
 "nonrepudiation","A property achieved through cryptographic methods to protect against an individual or entity falsely denying having performed a particular action related to data.","https://niccs.us-cert.gov/glossary"
 "password","A string of characters (letters, numbers, and other symbols) used to authenticate an identity or to verify access authorization.","https://niccs.us-cert.gov/glossary"
 "plaintext","Unencrypted information.","https://niccs.us-cert.gov/glossary"
