@@ -28,6 +28,14 @@ ltx_doc_start = \
 % Configure fancyhdr
 \\renewcommand{{\\headrulewidth}}{{0.1mm}}
 \\renewcommand{{\\footrulewidth}}{{0.1mm}}
+\\renewcommand{{\\headrule}}{{
+  \\vspace{{0.8mm}}\\vspace{{-\\baselineskip}}
+  \\textcolor{{gray}}{{\\rule{{\\linewidth}}{{\\headrulewidth}}}}
+}}
+\\renewcommand{{\\footrule}}{{
+  % \\vspace*{{0.8mm}}\\vspace*{{\\baselineskip}}
+  \\textcolor{{gray}}{{\\rule{{\\linewidth}}{{\\footrulewidth}}}}
+}}
 
 \\pagestyle{{fancy}}
 \\fancyhf{{}}
