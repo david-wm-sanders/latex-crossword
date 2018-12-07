@@ -118,12 +118,12 @@ def make_xword_clues(xword_legend):
              "\\centering\n"]
     mpla = ["\\begin{minipage}[t]{0.43\\linewidth}\n",
             "\\vspace{0pt}\n",
-            "{\\Centering\\underline{\\textsc{Across}}\\\\\n}",
+            "{\\Centering\\underline{\\textsc{Across}}\\\\~\\\\}\n",
             "\\RaggedRight\n",
             "\\fontsize{10pt}{10pt}\\selectfont\n"]
     mprd = ["\\begin{minipage}[t]{0.43\\linewidth}\n",
             "\\vspace{0pt}\n",
-            "{\\Centering\\underline{\\textsc{Down}}\\\\\n}",
+            "{\\Centering\\underline{\\textsc{Down}}\\\\~\\\\}\n",
             "\\RaggedRight\n",
             "\\fontsize{10pt}{10pt}\\selectfont\n"]
     for clue in xword_legend.splitlines():
