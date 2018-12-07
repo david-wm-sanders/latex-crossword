@@ -1,10 +1,13 @@
 import subprocess
+import sys
 from pathlib import Path
 
+texf = Path(sys.argv[1]).resolve()
 p = Path(__file__).parent
-print(f"Running make.py on {str(p)}")
-tex_files = p.glob("*.tex")
-for tex_file in tex_files:
-    print(f"Found {str(tex_file)} - compiling it!")
-    command = ["pdflatex.exe", str(tex_file)]
-    subprocess.run(command)
+print(f"Running make.py on {texf}")
+command = ["pdflatex.exe", str(texf)]
+subprocess.run(command)
+print("Cleaning up...")
+Path(f"{texf.parent}/{texf.stem}.aux").unlink()
+Path(f"{texf.parent}/{texf.stem}.log").unlink()
+Path(f"{texf.parent}/{texf.stem}.out").unlink()
