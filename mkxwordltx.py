@@ -41,8 +41,7 @@ ltx_doc_start = \
 \\fancyhf{{}}
 \\lhead{{\\textcolor{{gray}}{{\\scriptsize {_crossword_uuid}}}}}
 \\rhead{{\\textcolor{{gray}}{{\\scriptsize $\\Diamond$}}}}
-\\lfoot{{\\textcolor{{gray}}{{\\scriptsize~
-\\textit{{Generated with \\href{{https://github.com/david-wm-sanders/latex-crossword}}{{https://github.com/david-wm-sanders/latex-crossword}}}}}}}}
+\\lfoot{{\\textcolor{{gray}}{{\\scriptsize \\textit{{Generated with \\href{{https://github.com/david-wm-sanders/latex-crossword}}{{https://github.com/david-wm-sanders/latex-crossword}}}}}}}}
 \\rfoot{{\\textcolor{{gray}}{{\\scriptsize \\thepage}}}}
 
 \\begin{{document}}
