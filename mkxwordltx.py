@@ -81,19 +81,24 @@ def make_xword_ltxtable(xword_grid):
 def make_xword_clues(xword_legend):
     def adjust_clue(clue):
         parts = clue.split(":")
-        wp, ct = parts[0], parts[1].lstrip()
-        wp_parts = wp.split(".")
-        n, p = wp_parts[0], wp_parts[1].lstrip()
-        return f"\\textbf{{{n}.}} \\textit{{{p}:}} {ct}"
+        wordpos, cluetext = parts[0], parts[1].lstrip()
+        wordpos_parts = wordpos.split(".")
+        wordnum, pos = wordpos_parts[0], wordpos_parts[1].lstrip()
+        pos_parts = pos.split(" ")
+        wloc, wlen = pos_parts[0], pos_parts[2]
+        return f"\\textbf{{{wordnum}.}} \\textit{{{wloc}({wlen}):}} {cluetext}"
 
     clues = ["\\pagebreak\n",
+             "\\newgeometry{margin=0.25in}",
              "\\centering\n"]
     mpla = ["\\begin{minipage}[t]{0.43\\linewidth}\n",
             "\\vspace{0pt}\n",
+            "{\\Centering\\underline{\\textsc{Across}}\\\\\n}",
             "\\RaggedRight\n",
             "\\fontsize{10pt}{10pt}\\selectfont\n"]
     mprd = ["\\begin{minipage}[t]{0.43\\linewidth}\n",
             "\\vspace{0pt}\n",
+            "{\\Centering\\underline{\\textsc{Down}}\\\\\n}",
             "\\RaggedRight\n",
             "\\fontsize{10pt}{10pt}\\selectfont\n"]
     for clue in xword_legend.splitlines():
