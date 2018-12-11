@@ -1,0 +1,41 @@
+% Packages imported by the style with some configuration for certain packages
+\usepackage[T1]{fontenc}
+\usepackage[UKenglish]{babel}
+\usepackage[utf8]{inputenc}
+\usepackage{lmodern}
+\usepackage[a4paper, hmargin=0.5in, vmargin=0.75in]{geometry}
+\usepackage{tabularx}
+\usepackage[table]{xcolor}
+\usepackage{parskip}
+\usepackage{ragged2e}
+\usepackage{fancyhdr}
+\usepackage[colorlinks=true, linkcolor=gray, citecolor=gray, urlcolor=gray]{hyperref}
+\usepackage{latexsym}
+
+% Configure colours
+\definecolor{light-gray}{gray}{0.75}
+\definecolor{fader-gray}{gray}{0.5}
+
+% Change font to Palatino
+\renewcommand{\rmdefault}{ppl}
+
+% Configure fancyhdr
+\renewcommand{\headrulewidth}{0.1mm}
+\renewcommand{\footrulewidth}{0.1mm}
+\renewcommand{\headrule}{
+  \vspace{0.8mm}\vspace{-\baselineskip}
+  \textcolor{light-gray}{\rule{\linewidth}{\headrulewidth}}
+}
+\renewcommand{\footrule}{
+  % \vspace*{0.8mm}\vspace*{\baselineskip}
+  \textcolor{light-gray}{\rule{\linewidth}{\footrulewidth}}
+}
+
+% Make fancy headers and footers for reports
+\newcommand{\makeheadersandfooters}[1]{
+  \fancyhf{}
+  \lhead{\textcolor{light-gray}{\scriptsize #1}}
+  \rhead{\textcolor{light-gray}{\scriptsize $\Diamond$}}
+  \lfoot{\textcolor{light-gray}{\scriptsize \textit{Generated with \href{https://github.com/david-wm-sanders/latex-crossword}{https://github.com/david-wm-sanders/latex-crossword}}}}
+  \rfoot{\textcolor{light-gray}{\scriptsize \thepage}}
+}

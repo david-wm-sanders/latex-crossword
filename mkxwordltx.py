@@ -13,40 +13,10 @@ output_path = Path(__file__).parent / f"{_crossword_uuid.hex}.tex"
 ltx_doc_start = \
 """% !TEX TS-program = pdflatex
 \\documentclass[12pt]{{article}}
-
-\\usepackage[T1]{{fontenc}}
-\\usepackage[utf8]{{inputenc}}
-\\usepackage{{lmodern}}
-\\usepackage[a4paper, hmargin=0.5in, vmargin=0.75in]{{geometry}}
-\\usepackage{{tabularx}}
-\\usepackage[table]{{xcolor}}
-\\usepackage{{parskip}}
-\\usepackage{{ragged2e}}
-\\usepackage{{fancyhdr}}
-\\usepackage[colorlinks=true, linkcolor=gray, citecolor=gray, urlcolor=gray]{{hyperref}}
-\\usepackage{{latexsym}}
-
-% Change font to Palatino
-\\renewcommand{{\\rmdefault}}{{ppl}}
-
-% Configure fancyhdr
-\\renewcommand{{\\headrulewidth}}{{0.1mm}}
-\\renewcommand{{\\footrulewidth}}{{0.1mm}}
-\\renewcommand{{\\headrule}}{{
-  \\vspace{{0.8mm}}\\vspace{{-\\baselineskip}}
-  \\textcolor{{gray}}{{\\rule{{\\linewidth}}{{\\headrulewidth}}}}
-}}
-\\renewcommand{{\\footrule}}{{
-  % \\vspace*{{0.8mm}}\\vspace*{{\\baselineskip}}
-  \\textcolor{{gray}}{{\\rule{{\\linewidth}}{{\\footrulewidth}}}}
-}}
+\\usepackage{{ltxcrossword}}
 
 \\pagestyle{{fancy}}
-\\fancyhf{{}}
-\\lhead{{\\textcolor{{gray}}{{\\scriptsize {_crossword_uuid}}}}}
-\\rhead{{\\textcolor{{gray}}{{\\scriptsize $\\Diamond$}}}}
-\\lfoot{{\\textcolor{{gray}}{{\\scriptsize \\textit{{Generated with \\href{{https://github.com/david-wm-sanders/latex-crossword}}{{https://github.com/david-wm-sanders/latex-crossword}}}}}}}}
-\\rfoot{{\\textcolor{{gray}}{{\\scriptsize \\thepage}}}}
+\\makeheadersandfooters{{{_crossword_uuid}}}
 
 \\begin{{document}}
 """.format(_crossword_uuid=_crossword_uuid)
