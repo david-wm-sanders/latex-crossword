@@ -1,6 +1,7 @@
 import csv
 import itertools
 import random
+import sys
 import uuid
 from pathlib import Path
 from xwordgen_bh import Crossword
@@ -100,21 +101,23 @@ def make_xword_ltxtable(xword_grid):
     return f"{ltxtable_init}{ltxtabularx}{ltxtable_end}"
 
 
-def make_xword_clues(xword_legend):
+def make_xword_clues(xword_legend, word_lengths):
     def adjust_clue(clue):
         parts = clue.split(":")
         wordpos, cluetext = parts[0], parts[1].lstrip()
         wordpos_parts = wordpos.split(".")
         wordnum, pos = wordpos_parts[0], wordpos_parts[1].lstrip()
         pos_parts = pos.split(" ")
-        wloc, wlen = pos_parts[0], pos_parts[2]
-        return f"\\textbf{{{wordnum}.}} \\textit{{{wloc}({wlen}):}} {cluetext}"
+        wloc = pos_parts[0]
+        wlens = word_lengths[cluetext]
+        if len(wlens) == 1:
+            wlen = wlens[0]
+        else:
+            wlen = ",".join([str(wl) for wl in wlens])
+        ltx_clue_text = f"\\textbf{{{wordnum}.}} \\textit{{{wloc}({wlen}):}} {cluetext}"
+        return ltx_clue_text
 
     clues = ["\\pagebreak\n",
-             # "\\newgeometry{margin=0.25in}\n",
-             # "\\resetHeadWidth",
-             # "\\pagestyle{fancy}\n",
-             # "\\fancyhfoffset[E,O]{0pt}\n",
              "\\centering\n"]
     mpla = ["\\begin{minipage}[t]{0.47\\linewidth}\n",
             "\\vspace{0pt}\n",
@@ -152,15 +155,24 @@ def filter_word_randomly(word):
 if __name__ == '__main__':
     print("Loading word list from file...")
     word_list = []
+    word_lengths = {}
     with word_list_path.open(mode="r", encoding="utf-8") as f:
         reader = csv.DictReader(f)
         for row in reader:
-            word_list.append([row["word"], row["clue"]])
+            answer, clue = row["answer"], row["clue"]
+            nsanswer = answer.replace(" ","")
+            words = answer.split(" ")
+            for word in words:
+                if clue in word_lengths:
+                    word_lengths[clue].append(len(word))
+                else:
+                    word_lengths[clue] = [len(word)]
+            word_list.append([nsanswer, row["clue"]])
     # Remove some words from the long word list at random
     # This increases our chance of getting more shorter words in the crossword
     word_list = list(filter(filter_word_randomly, word_list))
 
-    time = 30
+    time = 60
     print(f"Creating crossword... (takes {time} seconds)")
     xword = Crossword(26, 26, "-", 5000, word_list)
     xword.compute_crossword(time, spins=3)
@@ -173,7 +185,7 @@ if __name__ == '__main__':
 
     print("Making LaTeX table for crossword...")
     ltx_xword_table = make_xword_ltxtable(xword_grid)
-    ltx_xword_clues = make_xword_clues(xword_legend)
+    ltx_xword_clues = make_xword_clues(xword_legend, word_lengths)
     print(f"Writing LaTeX document to {output_path}...")
     with output_path.open(mode="w", encoding="utf-8") as f:
         f.write(ltx_doc_start)
