@@ -26,6 +26,9 @@ ltx_doc_start = \
 \\usepackage[colorlinks=true, linkcolor=gray, citecolor=gray, urlcolor=gray]{{hyperref}}
 \\usepackage{{latexsym}}
 
+% Change font to Palatino
+\\renewcommand{{\\rmdefault}}{{ppl}}
+
 % Configure fancyhdr
 \\renewcommand{{\\headrulewidth}}{{0.1mm}}
 \\renewcommand{{\\footrulewidth}}{{0.1mm}}
@@ -105,16 +108,9 @@ def make_xword_clues(xword_legend, word_lengths):
     def adjust_clue(clue):
         parts = clue.split(":")
         wordpos, cluetext = parts[0], parts[1].lstrip()
-        wordpos_parts = wordpos.split(".")
-        wordnum, pos = wordpos_parts[0], wordpos_parts[1].lstrip()
-        pos_parts = pos.split(" ")
-        wloc = pos_parts[0]
+        wordnum = wordpos.split(".")[0]
         wlens = word_lengths[cluetext]
-        if len(wlens) == 1:
-            wlen = wlens[0]
-        else:
-            wlen = ",".join([str(wl) for wl in wlens])
-        ltx_clue_text = f"\\textbf{{{wordnum}.}} \\textit{{{wloc}({wlen}):}} {cluetext}"
+        ltx_clue_text = f"\\textbf{{{wordnum}.}} \\textit{{{wlens}:}} {cluetext}"
         return ltx_clue_text
 
     clues = ["\\pagebreak\n",
@@ -172,7 +168,7 @@ if __name__ == '__main__':
     # This increases our chance of getting more shorter words in the crossword
     word_list = list(filter(filter_word_randomly, word_list))
 
-    time = 60
+    time = 10
     print(f"Creating crossword... (takes {time} seconds)")
     xword = Crossword(26, 26, "-", 5000, word_list)
     xword.compute_crossword(time, spins=3)
