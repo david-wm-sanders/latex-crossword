@@ -6,6 +6,7 @@
 \usepackage[a4paper, hmargin=0.5in, vmargin=0.75in]{geometry}
 \usepackage{tabularx}
 \usepackage[table]{xcolor}
+\usepackage{colortbl}
 \usepackage{parskip}
 \usepackage{ragged2e}
 \usepackage{fancyhdr}
@@ -15,6 +16,9 @@
 % Configure colours
 \definecolor{light-gray}{gray}{0.75}
 \definecolor{fader-gray}{gray}{0.5}
+
+% Reconfigure hyperref to use new colours
+\hypersetup{linkcolor=light-gray, citecolor=light-gray, urlcolor=light-gray}
 
 % Change font to Palatino
 \renewcommand{\rmdefault}{ppl}

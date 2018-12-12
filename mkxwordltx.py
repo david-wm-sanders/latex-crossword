@@ -16,7 +16,7 @@ ltx_doc_start = \
 \\usepackage{{ltxcrossword}}
 
 \\pagestyle{{fancy}}
-\\makeheadersandfooters{{{_crossword_uuid}}}
+\\makeheadersandfooters{{USWACS Crossword: {_crossword_uuid}}}
 
 \\begin{{document}}
 """.format(_crossword_uuid=_crossword_uuid)
@@ -35,13 +35,14 @@ def make_ltxtable():
 def make_ltxtabularx(xword_grid):
     def xwordcell_to_ltxcell(cell):
         if cell == "-":
-            return "\\cellcolor{black!10}"
+            return "\\cellcolor{black!5}"
         elif cell == "w":
             return "\\cellcolor{white}"
         else:
             return cell
 
     tabularx_init = "\\begin{tabularx}{1\\textwidth}{*{25}{|X}|}\n" \
+                    "\\arrayrulecolor{fader-gray}\n" \
                     "\\hline\n"
     rows = []
     # Split the xword grid into individual rows
